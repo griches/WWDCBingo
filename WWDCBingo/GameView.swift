@@ -1,34 +1,7 @@
 import SwiftUI
 
 struct GameView: View {
-    // Placeholder data for bingo tiles (will be replaced with proper data models in Task 4)
-    @State private var tileData: [(text: String, isSelected: Bool)] = [
-        ("One more thing", false),
-        ("You're going to love it", false),
-        ("Camera zooming around Apple Park", false),
-        ("Someone on a roof", false),
-        ("Emotional Steve mention", false),
-        ("Xcode for iPad", false),
-        ("AI chat in Xcode", false),
-        ("iOS 26", false),
-        ("Joke about Craig", false),
-        ("GOOD MORNEENG", false),
-        ("Ford mentioned", false),
-        ("Most immersive ever", false),
-        ("Update is available RIGHT NOW", false),
-        ("Hair Force One", false),
-        ("New Icons", false),
-        ("A Sherlocking", false),
-        ("Our biggest update ever!", false),
-        ("AAA Game", false),
-        ("Old Game out on macOS", false),
-        ("Unified Experience", false),
-        ("Only Apple can do this", false),
-        ("Android Trash Talk", false),
-        ("10x", false),
-        ("Announcement for late 25", false),
-        ("A video of apps saving lives", false)
-    ]
+    @StateObject private var viewModel = GameViewModel()
     
     // Grid layout configuration - minimal spacing for maximum tile size
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 4), count: 5)
@@ -71,12 +44,12 @@ struct GameView: View {
                         }
                         
                         LazyVGrid(columns: columns, spacing: 4) {
-                            ForEach(0..<25, id: \.self) { index in
+                            ForEach(Array(viewModel.tiles.enumerated()), id: \.element.id) { index, tile in
                                 TileView(
-                                    text: tileData[index].text,
-                                    isSelected: tileData[index].isSelected
+                                    text: tile.term,
+                                    isSelected: tile.isSelected
                                 ) {
-                                    toggleTile(at: index)
+                                    viewModel.toggleTile(at: index)
                                 }
                                 .frame(width: tileSize, height: tileSize)
                             }
@@ -94,39 +67,52 @@ struct GameView: View {
             
             // Compact Game Status
             HStack(spacing: 16) {
-                Text("Selected: \(selectedCount)/25")
+                Text(viewModel.gameStatusText)
                     .font(.caption2)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(viewModel.isGameWon ? .green : .secondary)
+                    .fontWeight(viewModel.isGameWon ? .bold : .regular)
                 
-                Text("Find a line, column, or diagonal!")
-                    .font(.caption2)
-                    .foregroundColor(.secondary.opacity(0.7))
+                if !viewModel.isGameWon {
+                    Text("Find a line, column, or diagonal!")
+                        .font(.caption2)
+                        .foregroundColor(.secondary.opacity(0.7))
+                }
             }
             .padding(.bottom, 8)
         }
         .padding(.horizontal, 8) // Minimal outer padding
         .navigationTitle("Bingo")
         .navigationBarTitleDisplayMode(.inline)
-    }
-    
-    // MARK: - Private Methods
-    
-    private func toggleTile(at index: Int) {
-        guard index < tileData.count else { return }
-        tileData[index].isSelected.toggle()
-        
-        // Add haptic feedback
-        let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
-        impactFeedback.impactOccurred()
-    }
-    
-    private var selectedCount: Int {
-        tileData.filter { $0.isSelected }.count
+        .toolbar {
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                if viewModel.selectedCount > 0 {
+                    Button("Reset") {
+                        viewModel.resetCurrentGame()
+                    }
+                    .font(.caption)
+                    .foregroundColor(.orange)
+                }
+                
+                Button("New Game") {
+                    viewModel.startNewGame()
+                }
+                .font(.caption)
+                .foregroundColor(.blue)
+            }
+        }
     }
 }
 
-#Preview {
+#Preview("Default Game") {
     NavigationView {
         GameView()
     }
+}
+
+#Preview("Game with Selections") {
+    let viewModel = GameViewModel.previewWithSelections
+    return NavigationView {
+        GameView()
+    }
+    .environmentObject(viewModel)
 } 
