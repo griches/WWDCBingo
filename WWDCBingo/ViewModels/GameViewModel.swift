@@ -50,7 +50,7 @@ class GameViewModel: ObservableObject {
         let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
         impactFeedback.impactOccurred()
         
-        // Check for winning patterns (placeholder for Task 6)
+        // Check for winning patterns in real-time
         checkForWinningPatterns()
     }
     
@@ -65,11 +65,43 @@ class GameViewModel: ObservableObject {
     // MARK: - Private Methods
     
     private func checkForWinningPatterns() {
-        // Placeholder implementation - will be properly implemented in Task 6
-        // For now, just clear any existing winning state since we don't have pattern detection yet
-        if game.isGameWon {
-            game.setWinningState(patterns: [])
+        // Use PatternDetector to find all winning patterns
+        let detectedPatterns = PatternDetector.detectWinningPatterns(
+            selectedPositions: game.selectedPositions
+        )
+        
+        // Update game state with detected patterns
+        game.setWinningState(patterns: detectedPatterns)
+        
+        // Add special haptic feedback for winning
+        if !detectedPatterns.isEmpty && detectedPatterns.count != game.winningPatterns.count {
+            // Different haptic feedback for winning
+            let successFeedback = UINotificationFeedbackGenerator()
+            successFeedback.notificationOccurred(.success)
         }
+    }
+    
+    // MARK: - Pattern Query Methods
+    
+    /// Returns all winning positions (tiles that are part of any winning pattern)
+    var winningPositions: Set<GridPosition> {
+        Set(game.winningPatterns.flatMap { $0.positions })
+    }
+    
+    /// Checks if a specific position is part of a winning pattern
+    func isWinningPosition(_ position: GridPosition) -> Bool {
+        return winningPositions.contains(position)
+    }
+    
+    /// Checks if a tile at a specific index is part of a winning pattern
+    func isWinningTile(at index: Int) -> Bool {
+        guard let tile = game.tile(at: index) else { return false }
+        return isWinningPosition(tile.position)
+    }
+    
+    /// Returns a description of all current winning patterns (for debugging)
+    var winningPatternsDescription: String {
+        return PatternDetector.patternDescription(selectedPositions: game.selectedPositions)
     }
     
     // MARK: - Utility Methods
@@ -94,5 +126,18 @@ extension GameViewModel {
         sampleGame.toggleTile(at: 1)
         sampleGame.toggleTile(at: 6)
         return GameViewModel(game: sampleGame)
+    }()
+    
+    /// Preview with a winning horizontal line for testing
+    static let previewWithWin: GameViewModel = {
+        var sampleGame = BingoGame.sample
+        // Select entire top row for horizontal bingo
+        for column in 0..<5 {
+            let position = GridPosition(row: 0, column: column)
+            sampleGame.toggleTile(at: position)
+        }
+        
+        let viewModel = GameViewModel(game: sampleGame)
+        return viewModel
     }()
 } 

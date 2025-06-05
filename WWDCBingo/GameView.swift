@@ -47,7 +47,8 @@ struct GameView: View {
                             ForEach(Array(viewModel.tiles.enumerated()), id: \.element.id) { index, tile in
                                 TileView(
                                     text: tile.term,
-                                    isSelected: tile.isSelected
+                                    isSelected: tile.isSelected,
+                                    isWinning: viewModel.isWinningTile(at: index)
                                 ) {
                                     viewModel.toggleTile(at: index)
                                 }
@@ -65,19 +66,29 @@ struct GameView: View {
                 .padding(.horizontal, 8) // Minimal horizontal padding
             }
             
-            // Compact Game Status
-            HStack(spacing: 16) {
-                Text(viewModel.gameStatusText)
-                    .font(.caption2)
-                    .foregroundColor(viewModel.isGameWon ? .green : .secondary)
-                    .fontWeight(viewModel.isGameWon ? .bold : .regular)
-                
-                if !viewModel.isGameWon {
-                    Text("Find a line, column, or diagonal!")
+            // Compact Game Status with Fixed Height (prevents grid shifting)
+            VStack(spacing: 4) {
+                HStack(spacing: 16) {
+                    Text(viewModel.gameStatusText)
                         .font(.caption2)
-                        .foregroundColor(.secondary.opacity(0.7))
+                        .foregroundColor(viewModel.isGameWon ? .green : .secondary)
+                        .fontWeight(viewModel.isGameWon ? .bold : .regular)
+                    
+                    if !viewModel.isGameWon {
+                        Text("Find a line, column, or diagonal!")
+                            .font(.caption2)
+                            .foregroundColor(.secondary.opacity(0.7))
+                    }
                 }
+                
+                // Fixed height area for winning pattern details to prevent layout shift
+                Text(viewModel.isGameWon && !viewModel.winningPatterns.isEmpty ? winningPatternsText : "")
+                    .font(.caption2)
+                    .foregroundColor(.green)
+                    .fontWeight(.medium)
+                    .opacity(viewModel.isGameWon && !viewModel.winningPatterns.isEmpty ? 1.0 : 0.0)
             }
+            .frame(height: 44) // Fixed height to prevent shifting
             .padding(.bottom, 8)
         }
         .padding(.horizontal, 8) // Minimal outer padding
@@ -101,6 +112,18 @@ struct GameView: View {
             }
         }
     }
+    
+    // MARK: - Computed Properties
+    
+    private var winningPatternsText: String {
+        let patterns = viewModel.winningPatterns
+        if patterns.count == 1 {
+            return patterns.first?.type.displayName ?? ""
+        } else {
+            let types = patterns.map { $0.type.displayName }
+            return types.joined(separator: " & ")
+        }
+    }
 }
 
 #Preview("Default Game") {
@@ -115,4 +138,11 @@ struct GameView: View {
         GameView()
     }
     .environmentObject(viewModel)
+}
+
+#Preview("Game with Winning Pattern") {
+    NavigationView {
+        let viewModel = GameViewModel.previewWithWin
+        return GameView()
+    }
 } 
