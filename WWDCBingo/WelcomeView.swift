@@ -10,7 +10,13 @@ struct WelcomeView: View {
                 VStack(spacing: 20) {
                     Image(systemName: "checkmark.rectangle.stack.fill")
                         .font(.system(size: 100))
-                        .foregroundStyle(.blue.gradient)
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [.blue, .blue.opacity(0.7)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
                         .symbolEffect(.bounce, value: 1)
                     
                     // App Title
@@ -19,7 +25,13 @@ struct WelcomeView: View {
                             Text("WWDC")
                                 .font(.largeTitle)
                                 .fontWeight(.black)
-                                .foregroundStyle(.blue.gradient)
+                                .foregroundStyle(
+                                    LinearGradient(
+                                        colors: [.blue, .blue.opacity(0.7)],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
                             
                             Text("2025")
                                 .font(.largeTitle)
@@ -66,7 +78,13 @@ struct WelcomeView: View {
                     .padding(.vertical, 16)
                     .background(
                         RoundedRectangle(cornerRadius: 12)
-                            .fill(.blue.gradient)
+                            .fill(
+                                LinearGradient(
+                                    colors: [.blue, .blue.opacity(0.8)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
                     )
                     .padding(.horizontal, 20)
                 }
