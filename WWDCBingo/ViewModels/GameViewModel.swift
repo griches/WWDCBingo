@@ -39,8 +39,8 @@ class GameViewModel: ObservableObject {
         if game.isGameWon {
             let patternCount = game.winningPatterns.count
             return patternCount == 1 ? 
-                "🎉 BINGO! You found a \(game.winningPatterns.first?.type.displayName ?? "pattern")!" :
-                "🎉 AMAZING! You found \(patternCount) patterns!"
+                "🎉 BINGO! You got a match on \(game.winningPatterns.first?.type.displayName ?? "pattern")!" :
+                "🎉 AMAZING! You've got \(patternCount) matches!"
         } else {
             return "Selected: \(selectedCount)/25"
         }

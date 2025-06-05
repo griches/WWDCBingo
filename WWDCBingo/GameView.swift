@@ -150,16 +150,6 @@ struct GameView: View {
                 }
                 .accessibilityLabel(soundManager.isSoundEnabled ? "Sound enabled" : "Sound disabled")
                 .accessibilityHint("Double tap to toggle sound effects")
-                
-                if viewModel.selectedCount > 0 {
-                    Button("Reset") {
-                        viewModel.resetGame()
-                    }
-                    .font(scaledToolbarFont)
-                    .foregroundColor(.orange)
-                    .accessibilityLabel("Reset game")
-                    .accessibilityHint("Double tap to clear all selections and start over")
-                }
             }
         }
     }
