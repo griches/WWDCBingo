@@ -14,7 +14,9 @@ An interactive companion app for Apple's WWDC 2025 keynote presentations, featur
 ```
 WWDCBingo/
 ├── WWDCBingoApp.swift     # Main SwiftUI App entry point
-├── ContentView.swift      # Basic welcome screen
+├── ContentView.swift      # App root view
+├── WelcomeView.swift      # Branded welcome screen with navigation
+├── GameView.swift         # Game screen (placeholder for Task 3)
 ├── Assets.xcassets/       # App icons and images
 ├── Preview Content/       # SwiftUI preview assets
 └── README.md             # Project documentation
@@ -35,6 +37,7 @@ WWDCBingo/
 
 ## Current Features
 
+### ✅ Task 1: Basic App Foundation
 - [x] Basic SwiftUI app structure
 - [x] WWDC 2025 Bingo branding
 - [x] iOS 17.0+ deployment target
@@ -42,9 +45,17 @@ WWDCBingo/
 - [x] Auto-generated Info.plist (no conflicts)
 - [x] Resolved naming conflicts
 
+### ✅ Task 2: Welcome Screen Implementation
+- [x] Dedicated WelcomeView component
+- [x] Enhanced WWDC 2025 branding and theming
+- [x] "Start New Game" button with navigation
+- [x] Apple-inspired design with gradients and SF Symbols
+- [x] Navigation to game screen
+- [x] Professional welcome screen layout
+
 ## Development Status
 
-This project is currently in **Task 1: Basic App Foundation** phase.
+This project is currently in **Task 2: Welcome Screen Implementation** phase.
 
 See `tasks.md` for the complete development roadmap and progress tracking.
 
