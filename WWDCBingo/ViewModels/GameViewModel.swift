@@ -55,11 +55,19 @@ class GameViewModel: ObservableObject {
     func toggleTile(at index: Int) {
         guard index < game.tiles.count else { return }
         
+        let tile = game.tiles[index]
+        let wasSelected = tile.isSelected
+        
         // Provide haptic feedback for tile tap
         soundManager.playTileSelectionFeedback()
         
         // Toggle the tile
         game.toggleTile(at: index)
+        
+        // Accessibility announcement for tile state change
+        let actionText = wasSelected ? "deselected" : "selected"
+        let announcement = "\(tile.term) \(actionText)"
+        UIAccessibility.post(notification: .announcement, argument: announcement)
         
         // Check for new winning patterns
         checkForNewPatterns()
@@ -70,6 +78,9 @@ class GameViewModel: ObservableObject {
         previousPatternCount = 0
         showVictoryOverlay = false
         showConfetti = false
+        
+        // Accessibility announcement for new game
+        UIAccessibility.post(notification: .announcement, argument: "New game started. All tiles reset.")
     }
     
     func resetGame() {
@@ -77,6 +88,9 @@ class GameViewModel: ObservableObject {
         previousPatternCount = 0
         showVictoryOverlay = false
         showConfetti = false
+        
+        // Accessibility announcement for game reset
+        UIAccessibility.post(notification: .announcement, argument: "Game reset. All tiles deselected.")
     }
     
     // MARK: - Victory Celebration Actions
@@ -125,6 +139,17 @@ class GameViewModel: ObservableObject {
         // Play victory sound and enhanced haptic feedback
         soundManager.playVictorySound()
         soundManager.playVictoryHapticFeedback()
+        
+        // Create accessibility announcement for victory
+        let patternCount = game.winningPatterns.count
+        let victoryAnnouncement = if patternCount == 1 {
+            "Congratulations! You achieved BINGO with a \(game.winningPatterns.first?.type.displayName ?? "winning pattern")!"
+        } else {
+            "Amazing! You achieved BINGO with \(patternCount) different patterns!"
+        }
+        
+        // Post victory announcement immediately
+        UIAccessibility.post(notification: .announcement, argument: victoryAnnouncement)
         
         // Start confetti animation
         showConfetti = true

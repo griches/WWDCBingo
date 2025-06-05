@@ -4,6 +4,9 @@ struct ConfettiView: View {
     @State private var particles: [ConfettiParticle] = []
     @State private var animationTimer: Timer?
     
+    // Accessibility support
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    
     let isActive: Bool
     let duration: Double
     
@@ -14,16 +17,38 @@ struct ConfettiView: View {
     
     var body: some View {
         ZStack {
-            ForEach(particles) { particle in
-                Rectangle()
-                    .fill(particle.color)
-                    .frame(width: particle.size, height: particle.size)
-                    .rotationEffect(.degrees(particle.rotation))
-                    .position(x: particle.x, y: particle.y)
-                    .opacity(particle.opacity)
+            if !reduceMotion {
+                // Full confetti animation for users who don't have reduced motion
+                ForEach(particles) { particle in
+                    Rectangle()
+                        .fill(particle.color)
+                        .frame(width: particle.size, height: particle.size)
+                        .rotationEffect(.degrees(particle.rotation))
+                        .position(x: particle.x, y: particle.y)
+                        .opacity(particle.opacity)
+                }
+            } else {
+                // Simple celebration indicator for reduced motion users
+                if isActive {
+                    VStack {
+                        Image(systemName: "party.popper.fill")
+                            .font(.system(size: 60))
+                            .foregroundStyle(.yellow, .orange)
+                            .scaleEffect(1.2)
+                            .animation(.easeInOut(duration: 0.5).repeatCount(3), value: isActive)
+                        
+                        Text("🎉 Celebration! 🎉")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundColor(.primary)
+                            .opacity(0.8)
+                    }
+                    .transition(.scale.combined(with: .opacity))
+                }
             }
         }
         .allowsHitTesting(false) // Don't interfere with taps
+        .accessibilityHidden(true) // Hide decorative confetti from screen readers
         .onChange(of: isActive) { _, newValue in
             if newValue {
                 startConfetti()
