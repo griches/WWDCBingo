@@ -37,7 +37,7 @@ struct PatternDetector {
             // Check if all positions in this row are selected
             if rowPositions.allSatisfy({ selectedPositions.contains($0) }) {
                 let pattern = WinningPattern(
-                    type: .horizontal,
+                    type: .horizontal(row: row),
                     positions: rowPositions
                 )
                 patterns.append(pattern)
@@ -62,7 +62,7 @@ struct PatternDetector {
             // Check if all positions in this column are selected
             if columnPositions.allSatisfy({ selectedPositions.contains($0) }) {
                 let pattern = WinningPattern(
-                    type: .vertical,
+                    type: .vertical(column: column),
                     positions: columnPositions
                 )
                 patterns.append(pattern)
@@ -78,30 +78,22 @@ struct PatternDetector {
     private static func detectDiagonalPatterns(selectedPositions: Set<GridPosition>) -> [WinningPattern] {
         var patterns: [WinningPattern] = []
         
-        // Top-left to bottom-right diagonal (\)
-        let topLeftToBottomRightPositions = (0..<5).map { index in
-            GridPosition(row: index, column: index)
+        // Check main diagonal (top-left to bottom-right)
+        let mainDiagonalPositions = (0..<5).map { GridPosition(row: $0, column: $0) }
+        if mainDiagonalPositions.allSatisfy({ selectedPositions.contains($0) }) {
+            patterns.append(WinningPattern(
+                type: .diagonalMain,
+                positions: mainDiagonalPositions
+            ))
         }
         
-        if topLeftToBottomRightPositions.allSatisfy({ selectedPositions.contains($0) }) {
-            let pattern = WinningPattern(
-                type: .diagonalTopLeftToBottomRight,
-                positions: topLeftToBottomRightPositions
-            )
-            patterns.append(pattern)
-        }
-        
-        // Top-right to bottom-left diagonal (/)
-        let topRightToBottomLeftPositions = (0..<5).map { index in
-            GridPosition(row: index, column: 4 - index)
-        }
-        
-        if topRightToBottomLeftPositions.allSatisfy({ selectedPositions.contains($0) }) {
-            let pattern = WinningPattern(
-                type: .diagonalTopRightToBottomLeft,
-                positions: topRightToBottomLeftPositions
-            )
-            patterns.append(pattern)
+        // Check anti-diagonal (top-right to bottom-left)
+        let antiDiagonalPositions = (0..<5).map { GridPosition(row: $0, column: 4 - $0) }
+        if antiDiagonalPositions.allSatisfy({ selectedPositions.contains($0) }) {
+            patterns.append(WinningPattern(
+                type: .diagonalAnti,
+                positions: antiDiagonalPositions
+            ))
         }
         
         return patterns

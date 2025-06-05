@@ -4,11 +4,17 @@ import SwiftUI
 @MainActor
 class GameViewModel: ObservableObject {
     @Published private(set) var game: BingoGame
+    @Published var showVictoryOverlay: Bool = false
+    @Published var showConfetti: Bool = false
+    
+    private var soundManager = SoundManager.shared
+    private var previousPatternCount: Int = 0
     
     // MARK: - Initialization
     
     init(game: BingoGame = BingoGame.newGame()) {
         self.game = game
+        self.previousPatternCount = game.winningPatterns.count
     }
     
     // MARK: - Public Interface
@@ -32,71 +38,115 @@ class GameViewModel: ObservableObject {
     var gameStatusText: String {
         if game.isGameWon {
             let patternCount = game.winningPatterns.count
-            return patternCount == 1 ? "BINGO! 🎉" : "MULTIPLE BINGOS! 🎉"
+            return patternCount == 1 ? 
+                "🎉 BINGO! You found a \(game.winningPatterns.first?.type.displayName ?? "pattern")!" :
+                "🎉 AMAZING! You found \(patternCount) patterns!"
         } else {
             return "Selected: \(selectedCount)/25"
         }
     }
     
+    var winningPositions: Set<GridPosition> {
+        Set(game.winningPatterns.flatMap { $0.positions })
+    }
+    
     // MARK: - Game Actions
     
     func toggleTile(at index: Int) {
-        guard index >= 0 && index < game.tiles.count else { return }
+        guard index < game.tiles.count else { return }
+        
+        // Provide haptic feedback for tile tap
+        soundManager.playTileSelectionFeedback()
         
         // Toggle the tile
         game.toggleTile(at: index)
         
-        // Add haptic feedback
-        let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
-        impactFeedback.impactOccurred()
-        
-        // Check for winning patterns in real-time
-        checkForWinningPatterns()
+        // Check for new winning patterns
+        checkForNewPatterns()
     }
     
     func startNewGame() {
         game = BingoGame.newGame()
+        previousPatternCount = 0
+        showVictoryOverlay = false
+        showConfetti = false
     }
     
-    func resetCurrentGame() {
+    func resetGame() {
         game.resetGame()
+        previousPatternCount = 0
+        showVictoryOverlay = false
+        showConfetti = false
+    }
+    
+    // MARK: - Victory Celebration Actions
+    
+    func dismissVictoryOverlay() {
+        showVictoryOverlay = false
+    }
+    
+    func continueGame() {
+        showVictoryOverlay = false
+        // Keep confetti going for a bit longer after dismissing overlay
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.showConfetti = false
+        }
+    }
+    
+    func newGameFromVictory() {
+        startNewGame()
+    }
+    
+    // MARK: - Helper Methods
+    
+    func isWinningTile(at index: Int) -> Bool {
+        guard index < game.tiles.count else { return false }
+        let position = game.tiles[index].position
+        
+        return game.winningPatterns.contains { pattern in
+            pattern.positions.contains(position)
+        }
     }
     
     // MARK: - Private Methods
     
-    private func checkForWinningPatterns() {
-        // Use PatternDetector to find all winning patterns
-        let detectedPatterns = PatternDetector.detectWinningPatterns(
-            selectedPositions: game.selectedPositions
-        )
+    private func checkForNewPatterns() {
+        let currentPatternCount = game.winningPatterns.count
         
-        // Update game state with detected patterns
-        game.setWinningState(patterns: detectedPatterns)
-        
-        // Add special haptic feedback for winning
-        if !detectedPatterns.isEmpty && detectedPatterns.count != game.winningPatterns.count {
-            // Different haptic feedback for winning
-            let successFeedback = UINotificationFeedbackGenerator()
-            successFeedback.notificationOccurred(.success)
+        // Check if we have new patterns (more than before)
+        if currentPatternCount > previousPatternCount {
+            // New bingo(s) detected!
+            triggerVictoryCelebration()
+            previousPatternCount = currentPatternCount
         }
     }
     
-    // MARK: - Pattern Query Methods
-    
-    /// Returns all winning positions (tiles that are part of any winning pattern)
-    var winningPositions: Set<GridPosition> {
-        Set(game.winningPatterns.flatMap { $0.positions })
+    private func triggerVictoryCelebration() {
+        // Play victory sound and enhanced haptic feedback
+        soundManager.playVictorySound()
+        soundManager.playVictoryHapticFeedback()
+        
+        // Start confetti animation
+        showConfetti = true
+        
+        // Show victory overlay after a brief delay to let confetti start
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.showVictoryOverlay = true
+        }
+        
+        // Auto-stop confetti after 3 seconds if user doesn't interact
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            if self.showVictoryOverlay {
+                // Still showing overlay, keep confetti going
+            } else {
+                self.showConfetti = false
+            }
+        }
     }
     
     /// Checks if a specific position is part of a winning pattern
     func isWinningPosition(_ position: GridPosition) -> Bool {
         return winningPositions.contains(position)
-    }
-    
-    /// Checks if a tile at a specific index is part of a winning pattern
-    func isWinningTile(at index: Int) -> Bool {
-        guard let tile = game.tile(at: index) else { return false }
-        return isWinningPosition(tile.position)
     }
     
     /// Returns a description of all current winning patterns (for debugging)
@@ -115,29 +165,34 @@ class GameViewModel: ObservableObject {
     }
 }
 
-// MARK: - Preview Support
+// MARK: - Preview Helpers
 extension GameViewModel {
-    static let preview = GameViewModel(game: BingoGame.sample)
-    
-    static let previewWithSelections: GameViewModel = {
-        var sampleGame = BingoGame.sample
-        // Select a few tiles for preview
-        sampleGame.toggleTile(at: 0)
-        sampleGame.toggleTile(at: 1)
-        sampleGame.toggleTile(at: 6)
-        return GameViewModel(game: sampleGame)
-    }()
-    
-    /// Preview with a winning horizontal line for testing
-    static let previewWithWin: GameViewModel = {
-        var sampleGame = BingoGame.sample
-        // Select entire top row for horizontal bingo
-        for column in 0..<5 {
-            let position = GridPosition(row: 0, column: column)
-            sampleGame.toggleTile(at: position)
-        }
-        
-        let viewModel = GameViewModel(game: sampleGame)
+    static var previewWithSelections: GameViewModel {
+        let viewModel = GameViewModel()
+        // Select some tiles for preview
+        viewModel.toggleTile(at: 0)
+        viewModel.toggleTile(at: 1)
+        viewModel.toggleTile(at: 2)
         return viewModel
-    }()
+    }
+    
+    static var previewWithWin: GameViewModel {
+        let viewModel = GameViewModel()
+        // Select a winning row for preview
+        for i in 0..<5 {
+            viewModel.toggleTile(at: i)
+        }
+        return viewModel
+    }
+    
+    static var previewWithVictory: GameViewModel {
+        let viewModel = GameViewModel()
+        // Create a victory state for preview
+        for i in 0..<5 {
+            viewModel.game.toggleTile(at: i)
+        }
+        viewModel.showVictoryOverlay = true
+        viewModel.showConfetti = true
+        return viewModel
+    }
 } 

@@ -39,12 +39,14 @@ struct BingoGame: Codable {
     mutating func toggleTile(at position: GridPosition) {
         if let index = tiles.firstIndex(where: { $0.position == position }) {
             tiles[index].isSelected.toggle()
+            updateWinningState()
         }
     }
     
     mutating func toggleTile(at index: Int) {
         guard index >= 0 && index < tiles.count else { return }
         tiles[index].isSelected.toggle()
+        updateWinningState()
     }
     
     // MARK: - Game Control
@@ -61,22 +63,40 @@ struct BingoGame: Codable {
         isGameWon = !patterns.isEmpty
         winningPatterns = patterns
     }
+    
+    // MARK: - Private Methods
+    
+    private mutating func updateWinningState() {
+        let detectedPatterns = PatternDetector.detectWinningPatterns(
+            selectedPositions: selectedPositions
+        )
+        setWinningState(patterns: detectedPatterns)
+    }
 }
 
-// MARK: - WinningPattern (to be expanded in Task 6)
+// MARK: - WinningPattern
 struct WinningPattern: Codable, Identifiable {
     let id = UUID()
     let type: PatternType
     let positions: [GridPosition]
     
-    enum PatternType: String, CaseIterable, Codable {
-        case horizontal = "Horizontal"
-        case vertical = "Vertical"
-        case diagonalTopLeftToBottomRight = "Diagonal \\"
-        case diagonalTopRightToBottomLeft = "Diagonal /"
+    enum PatternType: Codable, Equatable {
+        case horizontal(row: Int)
+        case vertical(column: Int)
+        case diagonalMain
+        case diagonalAnti
         
         var displayName: String {
-            return rawValue
+            switch self {
+            case .horizontal(let row):
+                return "Row \(row + 1)"
+            case .vertical(let column):
+                return "Column \(column + 1)"
+            case .diagonalMain:
+                return "Diagonal \\"
+            case .diagonalAnti:
+                return "Diagonal /"
+            }
         }
     }
 }
