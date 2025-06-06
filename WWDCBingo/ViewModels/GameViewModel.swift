@@ -42,7 +42,7 @@ class GameViewModel: ObservableObject {
                 "🎉 BINGO! You got a match on \(game.winningPatterns.first?.type.displayName ?? "pattern")!" :
                 "🎉 AMAZING! You've got \(patternCount) matches!"
         } else {
-            return "Selected: \(selectedCount)/25"
+            return ""
         }
     }
     

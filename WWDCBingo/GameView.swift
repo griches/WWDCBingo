@@ -18,17 +18,17 @@ struct GameView: View {
             VStack(spacing: 8) {
                 // Compact Header with accessibility support
                 VStack(spacing: 2) {
-                    Text("WWDC 2025 Bingo")
+                    Text("NSLondon DubDub 25")
                         .font(scaledTitleFont)
                         .fontWeight(.bold)
                         .foregroundColor(.primary)
                         .accessibilityAddTraits(.isHeader)
-                        .accessibilityLabel("WWDC 2025 Bingo Game")
+                        .accessibilityLabel("NSLondon DubDub 25 Game")
                     
                     Text("Tap squares as moments happen!")
                         .font(scaledSubtitleFont)
                         .foregroundColor(.secondary)
-                        .accessibilityLabel("Instructions: Tap squares as moments happen during the keynote")
+                        .accessibilityLabel("Instructions: Tap squares as moments happen during the event")
                 }
                 .padding(.top, 8)
                 

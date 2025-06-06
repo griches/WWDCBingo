@@ -1,7 +1,7 @@
 import Foundation
 
 struct TermsDatabase {
-    // All available WWDC terms for bingo
+    // All available terms for NSLondon DubDub 25 bingo
     static let allTerms: [String] = [
         "One more thing",
         "You're going to love it", 

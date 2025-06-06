@@ -254,6 +254,109 @@ The app is production-ready with comprehensive test coverage ensuring reliabilit
 
 ---
 
+## Task 10: App Rebranding ✅
+**Section:** App Configuration & Branding  
+**Objective:** Rebrand app from "WWDC 2025 Bingo" to "NSLondon DubDub 25"  
+
+### Task Details:
+- [x] Update app display name in Info.plist to "NSLondon DubDub 25"
+- [x] Update WelcomeView title and subtitle text
+- [x] Update any hardcoded "WWDC 2025 Bingo" references throughout codebase
+- [x] Update app branding colors/styling if needed for NSLondon theme
+- [x] Verify rebranding consistency across all screens
+
+### Deliverables:
+- Updated Info.plist with new app display name
+- Updated WelcomeView with NSLondon DubDub 25 branding
+- Consistent branding throughout the app
+- All text references updated
+
+### Success Criteria:
+- App appears as "NSLondon DubDub 25" on device home screen
+- Welcome screen displays correct branding
+- No references to old branding remain in UI
+- App maintains professional appearance with new branding
+
+**Summary:** ✅ **COMPLETED** - Successfully rebranded the app from "WWDC 2025 Bingo" to "NSLondon DubDub 25". Updated project configuration with `INFOPLIST_KEY_CFBundleDisplayName` for both Debug and Release builds. Completely updated WelcomeView with new branding including title ("NSLondon DubDub" + "25"), subtitle text referencing NSLondon events, and version information. Updated GameView header and accessibility labels. Updated TermsDatabase comments and SoundManager UserDefaults keys for consistency. App builds successfully without errors and maintains professional appearance with new NSLondon branding throughout all screens.
+
+---
+
+## Task 11: Device Orientation Configuration ⏳
+**Section:** App Configuration - Device Settings  
+**Objective:** Disable landscape orientation, force portrait-only mode  
+
+### Task Details:
+- [ ] Update Info.plist supported interface orientations
+- [ ] Remove landscape orientations (left/right)
+- [ ] Keep portrait and portrait upside-down if needed
+- [ ] Test orientation locking on both iPhone and iPad
+- [ ] Verify UI layouts work well in portrait-only mode
+
+### Deliverables:
+- Updated Info.plist with portrait-only orientations
+- App locked to portrait mode on all devices
+- Verified UI compatibility with portrait-only constraint
+
+### Success Criteria:
+- App never rotates to landscape mode
+- Portrait orientation is enforced system-wide
+- UI remains functional and attractive in portrait mode
+- No layout issues when device is rotated
+
+---
+
+## Task 12: Credits and Attribution ⏳
+**Section:** User Interface - Credits & Attribution  
+**Objective:** Add creator credits and Mastodon link to title screen  
+
+### Task Details:
+- [ ] Add "Created by Gary" text to WelcomeView
+- [ ] Add Mastodon link: @gary_bbgames@mstdn.games
+- [ ] Position credits appropriately on title screen (bottom/footer area)
+- [ ] Make Mastodon handle tappable with external link
+- [ ] Style credits to be visible but not intrusive
+- [ ] Add accessibility support for credits section
+
+### Deliverables:
+- Credits text displayed on title screen
+- Tappable Mastodon link that opens external app/Safari
+- Appropriate styling and positioning for credits
+- Accessibility labels for credits section
+
+### Success Criteria:
+- Credits are visible but don't interfere with main welcome UI
+- Mastodon link opens correctly when tapped
+- Credits maintain consistent styling with app theme
+- Accessibility users can navigate to and activate credits
+
+---
+
+## Task 13: Center Tile Logic Enhancement ⏳
+**Section:** Game Logic - Special Tile Positioning  
+**Objective:** Ensure "Good Morning" term always appears in center position (2,2)  
+
+### Task Details:
+- [ ] Identify "Good Morning" term in TermsDatabase
+- [ ] Modify grid generation logic to place it at center position
+- [ ] Update randomization algorithm to handle special positioning
+- [ ] Ensure other 24 terms are still randomized in remaining positions
+- [ ] Test that center tile is always "Good Morning" across multiple new games
+- [ ] Verify pattern detection still works correctly with fixed center tile
+
+### Deliverables:
+- Updated TermsDatabase or grid generation logic
+- Modified randomization algorithm with special case handling
+- Center position (row 2, col 2) always contains "Good Morning"
+- Remaining positions maintain proper randomization
+
+### Success Criteria:
+- "Good Morning" appears in center of every new game
+- Other 24 positions are properly randomized
+- Pattern detection algorithms still function correctly
+- New game generation works consistently with center tile constraint
+
+---
+
 ## Development Guidelines
 
 ### Build Verification
@@ -291,6 +394,10 @@ After each task completion:
 | 7. Victory Celebration | ✅ Complete | Today | Comprehensive victory celebration system with confetti animations, victory overlay, and sound effects |
 | 8. Accessibility & Polish | ✅ Complete | Today | Comprehensive accessibility system with VoiceOver support across all views |
 | 9. Testing & Optimization | ✅ Complete | Today | Comprehensive testing and optimization work |
+| 10. App Rebranding | ✅ Complete | Today | Rebrand to NSLondon DubDub 25 |
+| 11. Device Orientation | ⏳ Pending | - | Force portrait-only mode |
+| 12. Credits & Attribution | ⏳ Pending | - | Add creator credits and Mastodon link |
+| 13. Center Tile Logic | ⏳ Pending | - | Fix "Good Morning" to center position |
 
 **Legend:**  
 ⏳ Pending | 🚧 In Progress | ✅ Complete | ❌ Blocked 

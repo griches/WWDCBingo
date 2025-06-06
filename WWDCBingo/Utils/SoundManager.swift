@@ -12,12 +12,12 @@ class SoundManager: ObservableObject {
     
     @Published var isSoundEnabled: Bool {
         didSet {
-            UserDefaults.standard.set(isSoundEnabled, forKey: "WWDCBingo_SoundEnabled")
+            UserDefaults.standard.set(isSoundEnabled, forKey: "NSLondonDubDub25_SoundEnabled")
         }
     }
     
     private init() {
-        self.isSoundEnabled = UserDefaults.standard.object(forKey: "WWDCBingo_SoundEnabled") as? Bool ?? true
+        self.isSoundEnabled = UserDefaults.standard.object(forKey: "NSLondonDubDub25_SoundEnabled") as? Bool ?? true
     }
     
     // MARK: - Public Methods

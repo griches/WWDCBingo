@@ -18,33 +18,33 @@ struct WelcomeView: View {
                         .font(.system(size: iconSize))
                         .foregroundStyle(appIconGradient)
                         .symbolEffect(reduceMotion ? .bounce.byLayer : .bounce, value: 1)
-                        .accessibilityLabel("WWDC Bingo app icon")
+                        .accessibilityLabel("NSLondon DubDub 25 app icon")
                         .accessibilityHidden(false)
                     
                     // App Title with enhanced accessibility
                     VStack(spacing: 12) {
                         HStack(spacing: 8) {
-                            Text("WWDC")
+                            Text("NSLondon")
                                 .font(scaledLargeTitleFont)
                                 .fontWeight(.black)
                                 .foregroundStyle(titleGradient)
                             
-                            Text("2025")
+                            Text("DubDub")
                                 .font(scaledLargeTitleFont)
                                 .fontWeight(.black)
                                 .foregroundColor(.primary)
                         }
                         .accessibilityElement(children: .combine)
-                        .accessibilityLabel("WWDC 2025")
+                        .accessibilityLabel("NSLondon DubDub")
                         .accessibilityAddTraits(.isHeader)
                         .accessibilityFocused($titleFocused)
                         
-                        Text("Bingo")
+                        Text("25")
                             .font(scaledTitleFont)
                             .fontWeight(.medium)
                             .foregroundColor(.secondary)
                             .tracking(2)
-                            .accessibilityLabel("Bingo game")
+                            .accessibilityLabel("25 bingo game")
                     }
                 }
                 
@@ -57,12 +57,12 @@ struct WelcomeView: View {
                         .accessibilityLabel("Interactive keynote companion app")
                         .accessibilityAddTraits(.isHeader)
                     
-                    Text("Tap squares as WWDC moments happen during the keynote!")
+                    Text("Tap a matching tile as you hear the phrase or see the event happen!")
                         .font(scaledBodyFont)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
                         .lineLimit(sizeCategory.isAccessibilityCategory ? nil : 3)
-                        .accessibilityLabel("Instructions: Tap squares as WWDC moments happen during the keynote")
+                        .accessibilityLabel("Instructions: Tap a matching tile as you hear the phrase or see the event happen")
                 }
                 .padding(.horizontal, 20)
                 
@@ -91,10 +91,10 @@ struct WelcomeView: View {
                 
                 // Secondary Info with accessibility
                 VStack(spacing: 8) {
-                    Text("Made for WWDC 2025")
+                    Text("Made for NSLondon DubDub 25")
                         .font(scaledCaptionFont)
                         .foregroundColor(.secondary.opacity(0.7))
-                        .accessibilityLabel("App version information: Made for WWDC 2025")
+                        .accessibilityLabel("App version information: Made for NSLondon DubDub 25")
                     
                     Text("Version 1.0")
                         .font(scaledSmallCaptionFont)
