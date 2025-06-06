@@ -335,29 +335,29 @@ The app is production-ready with comprehensive test coverage ensuring reliabilit
 
 ---
 
-## Task 13: Center Tile Logic Enhancement ⏳
+## Task 13: Center Tile Logic Enhancement ✅
 **Section:** Game Logic - Special Tile Positioning  
 **Objective:** Ensure "Good Morning" term always appears in center position (2,2)  
 
 ### Task Details:
-- [ ] Identify "Good Morning" term in TermsDatabase
-- [ ] Modify grid generation logic to place it at center position
-- [ ] Update randomization algorithm to handle special positioning
-- [ ] Ensure other 24 terms are still randomized in remaining positions
-- [ ] Test that center tile is always "Good Morning" across multiple new games
-- [ ] Verify pattern detection still works correctly with fixed center tile
+- [x] Identify "Good Morning" term in TermsDatabase
+- [x] Modify grid generation logic to place it at center position
+- [x] Update randomization algorithm to handle special positioning
+- [x] Ensure other 24 terms are still randomized in remaining positions
+- [x] Test that center tile is always "Good Morning" across multiple new games
+- [x] Verify pattern detection still works correctly with fixed center tile
 
 ### Deliverables:
-- Updated TermsDatabase or grid generation logic
-- Modified randomization algorithm with special case handling
-- Center position (row 2, col 2) always contains "Good Morning"
-- Remaining positions maintain proper randomization
+- Updated TermsDatabase with enhanced grid generation logic
+- Modified randomization algorithm with special case handling for center position
+- Center position (row 2, col 2) always contains "GOOD MORNEENG"
+- Remaining 24 positions maintain proper randomization
 
 ### Success Criteria:
-- "Good Morning" appears in center of every new game
-- Other 24 positions are properly randomized
-- Pattern detection algorithms still function correctly
-- New game generation works consistently with center tile constraint
+- "GOOD MORNEENG" appears in center of every new game ✅
+- Other 24 positions are properly randomized ✅
+- Pattern detection algorithms still function correctly ✅
+- New game generation works consistently with center tile constraint ✅
 
 ---
 
@@ -401,7 +401,7 @@ After each task completion:
 | 10. App Rebranding | ✅ Complete | Today | Rebrand to NSLondon DubDub 25 |
 | 11. Device Orientation | ✅ Complete | Today | Force portrait-only mode |
 | 12. Credits & Attribution | ✅ Complete | Today | Add creator credits and Mastodon link |
-| 13. Center Tile Logic | ⏳ Pending | - | Fix "Good Morning" to center position |
+| 13. Center Tile Logic | ✅ Complete | Today | Fix "Good Morning" to center position |
 
 **Legend:**  
 ⏳ Pending | 🚧 In Progress | ✅ Complete | ❌ Blocked 

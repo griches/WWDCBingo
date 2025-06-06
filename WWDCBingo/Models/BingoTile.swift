@@ -29,12 +29,12 @@ extension BingoTile {
         let sampleTerms = [
             "One more thing", "You're going to love it", "Camera zooming",
             "Someone on a roof", "Steve mention", "Xcode for iPad",
-            "AI chat", "iOS 26", "Craig joke", "GOOD MORNEENG",
-            "Ford mentioned", "Most immersive", "Update RIGHT NOW",
+            "AI chat", "iOS 26", "Craig joke", "10x",
+            "Ford mentioned", "Most immersive", "GOOD MORNEENG",
             "Hair Force One", "New Icons", "A Sherlocking",
             "Biggest update", "AAA Game", "Old Game macOS",
             "Unified Experience", "Only Apple", "Android Trash",
-            "10x", "Late 25", "Apps saving lives"
+            "Late 25", "Update RIGHT NOW", "Apps saving lives"
         ]
         
         return sampleTerms.enumerated().map { index, term in

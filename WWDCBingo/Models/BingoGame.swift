@@ -93,9 +93,9 @@ struct WinningPattern: Codable, Identifiable {
             case .vertical(let column):
                 return "column \(column + 1)"
             case .diagonalMain:
-                return "diagonal \\"
+                return "diagonal"
             case .diagonalAnti:
-                return "diagonal /"
+                return "diagonal"
             }
         }
     }
