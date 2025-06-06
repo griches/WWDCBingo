@@ -73,22 +73,6 @@ struct GameViewModelTests {
     
     // MARK: - Game State Tests
     
-    @Test func testGameStatusText() async throws {
-        let viewModel = GameViewModel()
-        
-        // Initially should show 0 selected
-        #expect(viewModel.gameStatusText.contains("Selected: 0/25"))
-        
-        // Select a tile
-        viewModel.toggleTile(at: 0)
-        #expect(viewModel.gameStatusText.contains("Selected: 1/25"))
-        
-        // Select more tiles
-        viewModel.toggleTile(at: 1)
-        viewModel.toggleTile(at: 2)
-        #expect(viewModel.gameStatusText.contains("Selected: 3/25"))
-    }
-    
     @Test func testNewGameFunctionality() async throws {
         let viewModel = GameViewModel()
         

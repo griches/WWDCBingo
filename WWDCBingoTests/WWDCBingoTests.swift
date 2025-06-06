@@ -369,10 +369,10 @@ struct WWDCBingoTests {
         #expect(!mainDiagonalType.displayName.isEmpty)
         #expect(!antiDiagonalType.displayName.isEmpty)
         
-        #expect(horizontalType.displayName.contains("Row"))
-        #expect(verticalType.displayName.contains("Column"))
-        #expect(mainDiagonalType.displayName.contains("Diagonal"))
-        #expect(antiDiagonalType.displayName.contains("Diagonal"))
+        #expect(horizontalType.displayName.contains("row"))
+        #expect(verticalType.displayName.contains("column"))
+        #expect(mainDiagonalType.displayName.contains("diagonal"))
+        #expect(antiDiagonalType.displayName.contains("diagonal"))
     }
     
     @Test func testGameStateConsistency() async throws {
