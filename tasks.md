@@ -307,17 +307,17 @@ The app is production-ready with comprehensive test coverage ensuring reliabilit
 
 ---
 
-## Task 12: Credits and Attribution ⏳
+## Task 12: Credits and Attribution ✅
 **Section:** User Interface - Credits & Attribution  
 **Objective:** Add creator credits and Mastodon link to title screen  
 
 ### Task Details:
-- [ ] Add "Created by Gary" text to WelcomeView
-- [ ] Add Mastodon link: @gary_bbgames@mstdn.games
-- [ ] Position credits appropriately on title screen (bottom/footer area)
-- [ ] Make Mastodon handle tappable with external link
-- [ ] Style credits to be visible but not intrusive
-- [ ] Add accessibility support for credits section
+- [x] Add "Created by Gary" text to WelcomeView
+- [x] Add Mastodon link: @gary_bbgames@mstdn.games
+- [x] Position credits appropriately on title screen (bottom/footer area)
+- [x] Make Mastodon handle tappable with external link
+- [x] Style credits to be visible but not intrusive
+- [x] Add accessibility support for credits section
 
 ### Deliverables:
 - Credits text displayed on title screen
@@ -330,6 +330,8 @@ The app is production-ready with comprehensive test coverage ensuring reliabilit
 - Mastodon link opens correctly when tapped
 - Credits maintain consistent styling with app theme
 - Accessibility users can navigate to and activate credits
+
+**Summary:** ✅ **COMPLETED** - Successfully added credits section to WelcomeView with "Created by Gary" text and tappable Mastodon link (@gary_bbgames@mstdn.games). Credits are positioned at the bottom of the welcome screen with subtle styling that doesn't interfere with the main UI. Implemented `openMastodonProfile()` function that attempts to open the Mastodon app first, falling back to web browser. Added comprehensive accessibility support with proper labels, hints, and link traits for VoiceOver users. Credits maintain consistent styling with the app theme using secondary text colors and appropriate spacing.
 
 ---
 
@@ -398,7 +400,7 @@ After each task completion:
 | 9. Testing & Optimization | ✅ Complete | Today | Comprehensive testing and optimization work |
 | 10. App Rebranding | ✅ Complete | Today | Rebrand to NSLondon DubDub 25 |
 | 11. Device Orientation | ✅ Complete | Today | Force portrait-only mode |
-| 12. Credits & Attribution | ⏳ Pending | - | Add creator credits and Mastodon link |
+| 12. Credits & Attribution | ✅ Complete | Today | Add creator credits and Mastodon link |
 | 13. Center Tile Logic | ⏳ Pending | - | Fix "Good Morning" to center position |
 
 **Legend:**  

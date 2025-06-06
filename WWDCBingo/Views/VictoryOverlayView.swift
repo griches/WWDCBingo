@@ -223,7 +223,7 @@ struct VictoryOverlayView: View {
     
     private var victoryMessage: String {
         if winningPatterns.count == 1 {
-            return "You got a \(winningPatterns.first?.type.displayName ?? "bingo")!"
+            return "You got bingo on \(winningPatterns.first?.type.displayName ?? "bingo")!"
         } else {
             let types = winningPatterns.map { $0.type.displayName }
             return "Amazing! You got \(types.joined(separator: " & "))!"

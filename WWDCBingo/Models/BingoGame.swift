@@ -89,13 +89,13 @@ struct WinningPattern: Codable, Identifiable {
         var displayName: String {
             switch self {
             case .horizontal(let row):
-                return "Row \(row + 1)"
+                return "row \(row + 1)"
             case .vertical(let column):
-                return "Column \(column + 1)"
+                return "column \(column + 1)"
             case .diagonalMain:
-                return "Diagonal \\"
+                return "diagonal \\"
             case .diagonalAnti:
-                return "Diagonal /"
+                return "diagonal /"
             }
         }
     }

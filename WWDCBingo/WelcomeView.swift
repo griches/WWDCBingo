@@ -89,19 +89,41 @@ struct WelcomeView: View {
                 .accessibilityHint("Double tap to start a new bingo game with randomized terms")
                 .accessibilityAddTraits(.startsMediaSession)
                 
-                // Secondary Info with accessibility
+                Spacer(minLength: 20)
+                
+                // Footer section with credits and version
                 VStack(spacing: 8) {
-                    Text("Made for NSLondon DubDub 25")
-                        .font(scaledCaptionFont)
-                        .foregroundColor(.secondary.opacity(0.7))
-                        .accessibilityLabel("App version information: Made for NSLondon DubDub 25")
+                    // Credits Section
+                    VStack(spacing: 6) {
+                        Text("Created by Gary")
+                            .font(scaledSmallCaptionFont)
+                            .foregroundColor(.secondary.opacity(0.6))
+                            .accessibilityLabel("Created by Gary")
+                        
+                        Button(action: openMastodonProfile) {
+                            HStack(spacing: 0) {
+                                Text("@gary_bbgames")
+                                Text("@")
+                                Text("mstdn.games")
+                            }
+                            .font(scaledSmallCaptionFont)
+                            .foregroundColor(.blue.opacity(0.8))
+                            .underline()
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        .accessibilityLabel("Contact Gary on Mastodon")
+                        .accessibilityHint("Double tap to open Gary's Mastodon profile")
+                        .accessibilityAddTraits(.isLink)
+                    }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("Credits: Created by Gary. Contact on Mastodon at gary bbgames on mstdn dot games")
                     
+                    // Version info
                     Text("Version 1.0")
                         .font(scaledSmallCaptionFont)
                         .foregroundColor(.secondary.opacity(0.5))
                         .accessibilityLabel("Version 1.0")
                 }
-                .accessibilityElement(children: .combine)
                 
                 Spacer(minLength: 20)
             }
@@ -115,6 +137,25 @@ struct WelcomeView: View {
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
+    }
+    
+    // MARK: - Helper Functions
+    
+    private func openMastodonProfile() {
+        // Try various Mastodon app URL schemes, fallback to web URL
+        let mastodonAppURL1 = URL(string: "mastodon://profile/gary_bbgames@mstdn.games")
+        let mastodonAppURL2 = URL(string: "mastodon://user?username=gary_bbgames&domain=mstdn.games")
+        let webURL = URL(string: "https://mstdn.games/@gary_bbgames")
+        
+        // Try different Mastodon app URL formats
+        if let url1 = mastodonAppURL1, UIApplication.shared.canOpenURL(url1) {
+            UIApplication.shared.open(url1)
+        } else if let url2 = mastodonAppURL2, UIApplication.shared.canOpenURL(url2) {
+            UIApplication.shared.open(url2)
+        } else if let webURL = webURL {
+            // Fall back to opening in Safari
+            UIApplication.shared.open(webURL)
+        }
     }
     
     // MARK: - Dynamic Type Support

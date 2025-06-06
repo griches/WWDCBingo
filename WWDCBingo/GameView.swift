@@ -91,10 +91,10 @@ struct GameView: View {
                             .accessibilityLabel("Game status: \(viewModel.gameStatusText)")
                         
                         if !viewModel.isGameWon {
-                            Text("Find a line, column, or diagonal!")
+                            Text("Fill a vertical, horizontal or diagonal line to get BINGO!")
                                 .font(scaledStatusFont)
                                 .foregroundColor(.secondary.opacity(0.7))
-                                .accessibilityLabel("Goal: Find a line, column, or diagonal")
+                                .accessibilityLabel("Goal: Fill a vertical, horizontal or diagonal line to get BINGO")
                         }
                     }
                     
